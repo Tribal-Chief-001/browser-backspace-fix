@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Backspace = Back</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0f0f13;
+      --surface: #1a1a24;
+      --border: #2a2a38;
+      --accent: #4f8ef7;
+      --accent-glow: rgba(79, 142, 247, 0.25);
+      --text: #e8e8f0;
+      --muted: #7070a0;
+      --on: #22c55e;
+      --off: #ef4444;
+    }
+
+    body {
+      width: 280px;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      padding: 20px;
+      user-select: none;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .key-badge {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--accent);
+      box-shadow: 0 2px 0 var(--border), 0 0 10px var(--accent-glow);
+    }
+
+    .title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 7px;
+      transition: background 0.2s;
+    }
+    .status-dot.on  { background: var(--on);  box-shadow: 0 0 6px var(--on); }
+    .status-dot.off { background: var(--off); box-shadow: 0 0 6px var(--off); }
+
+    /* Toggle switch */
+    .switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      inset: 0;
+      background: #333348;
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.25s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      left: 3px;
+      top: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: transform 0.25s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    }
+    input:checked + .slider { background: var(--accent); }
+    input:checked + .slider::before { transform: translateX(18px); }
+
+    .info-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .info-box strong { color: var(--text); font-weight: 600; }
+
+    .chip {
+      display: inline-block;
+      background: rgba(79,142,247,0.12);
+      color: var(--accent);
+      border-radius: 4px;
+      padding: 1px 5px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin: 0 1px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 14px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="key-badge">⌫ BSP</div>
+    <div>
+      <div class="title">Backspace = Back</div>
+      <div class="subtitle">v2.0 — Bug-proof edition</div>
+    </div>
+  </div>
+
+  <div class="toggle-row">
+    <div class="toggle-label">
+      <span class="status-dot" id="dot"></span>
+      <span id="status-text">Enabled</span>
+    </div>
+    <label class="switch">
+      <input type="checkbox" id="toggle" checked />
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="info-box">
+    <strong>Safe to type.</strong> Backspace only navigates back when you're
+    <em>not</em> focused in an
+    <span class="chip">input</span>
+    <span class="chip">textarea</span>
+    or <span class="chip">rich editor</span>.
+    Works exactly like the old Edge flag.
+  </div>
+
+  <div class="footer">Works on Edge · Chrome · Brave · Opera</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
